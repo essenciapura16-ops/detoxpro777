@@ -6,37 +6,9 @@ import './Ebook.css';
 function Ebook() {
     const navigate = useNavigate();
 
-    const handleDownloadPDF = async () => {
-        try {
-            const pdfUrl = 'https://blobs.vusercontent.net/blob/70-Receitas-Saudaveis-1xAygSHCukJgMXFB3nCy55eBmWKAFB.pdf';
-            
-            const response = await fetch(pdfUrl, {
-                mode: 'cors',
-                headers: {
-                    'Accept': 'application/pdf'
-                }
-            });
-
-            if (!response.ok) {
-                console.log('[v0] Erro ao fazer fetch do PDF, abrindo em nova aba');
-                window.open(pdfUrl, '_blank');
-                return;
-            }
-
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = '70-Receitas-Saudaveis.pdf';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-            console.log('[v0] Erro no download:', error.message);
-            // Fallback: abrir PDF em nova aba
-            window.open('https://blobs.vusercontent.net/blob/70-Receitas-Saudaveis-1xAygSHCukJgMXFB3nCy55eBmWKAFB.pdf', '_blank');
-        }
+    const handleDownloadPDF = () => {
+        const pdfUrl = 'https://blobs.vusercontent.net/blob/70-Receitas-Saudaveis-1xAygSHCukJgMXFB3nCy55eBmWKAFB.pdf';
+        window.open(pdfUrl, '_blank');
     };
 
     return (
