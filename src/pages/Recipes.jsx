@@ -94,6 +94,69 @@ function Recipes() {
                         preparo: 'Passe todos os ingredientes pelo extrator de suco. Se não tiver, bata no liquidificador e coe.',
                         beneficios: 'Limpa o fígado, melhora a circulação, fornece energia natural e ajuda a eliminar toxinas.',
                         tempo_estimado: 12
+                    },
+                    {
+                        dia: 6,
+                        nome: 'Suco de Maçã Verde e Couve',
+                        tipo: 'detox',
+                        ingredientes: '2 maçãs verdes, 3 folhas de couve, 1 cenoura, 1/2 gengibre, 1/2 limão, 200ml de água',
+                        preparo: 'Passe tudo pelo extrator ou liquidificador. Coe bem e consuma imediatamente.',
+                        beneficios: 'Extremamente desintoxicante, melhora a pele, aumenta energia e força o sistema imunológico.',
+                        tempo_estimado: 10
+                    },
+                    {
+                        dia: 7,
+                        nome: 'Chá Detox de Hibisco',
+                        tipo: 'detox',
+                        ingredientes: '2 colheres de hibisco seco, 1 canela em pau, 1 colher de mel, 1/2 limão, 300ml de água quente',
+                        preparo: 'Coloque o hibisco e canela na água quente. Deixe em infusão por 10 minutos. Coe, adicione limão e mel.',
+                        beneficios: 'Reduz pressão arterial, melhora circulação, detoxifica o fígado e tem propriedades diuréticas.',
+                        tempo_estimado: 12
+                    },
+                    {
+                        dia: 8,
+                        nome: 'Suco de Melancia e Limão',
+                        tipo: 'detox',
+                        ingredientes: '2 xícaras de melancia picada, 1 limão, 1 colher de mel, 200ml de água, gelo',
+                        preparo: 'Bata a melancia com água. Coe e adicione suco de limão e mel. Sirva com gelo.',
+                        beneficios: 'Hidratação profunda, desintoxicação dos rins, melhora fluxo urinário e reduz inchaço.',
+                        tempo_estimado: 8
+                    },
+                    {
+                        dia: 9,
+                        nome: 'Chá Verde com Hortelã',
+                        tipo: 'detox',
+                        ingredientes: '1 colher de chá verde, 10 folhas de hortelã fresca, 1/2 limão, 1 colher de mel, 250ml de água quente',
+                        preparo: 'Coloque o chá verde e hortelã na água quente. Deixe em repouso por 3 minutos. Coe, adicione limão e mel.',
+                        beneficios: 'Antioxidante poderoso, melhora digestão, aumenta queima de gordura e fresca o hálito.',
+                        tempo_estimado: 5
+                    },
+                    {
+                        dia: 10,
+                        nome: 'Suco Detox com Abacaxi',
+                        tipo: 'detox',
+                        ingredientes: '2 xícaras de abacaxi picado, 1/2 gengibre, 1 limão, 200ml de água',
+                        preparo: 'Bata tudo no liquidificador. Coe bem e beba fresco.',
+                        beneficios: 'Bromelina ajuda na digestão, reduz inflamação, limpa intestinos e acelera metabolismo.',
+                        tempo_estimado: 8
+                    },
+                    {
+                        dia: 11,
+                        nome: 'Chá Desintoxicante com Alecrim',
+                        tipo: 'detox',
+                        ingredientes: '1 ramo de alecrim fresco, 1 colher de gengibre ralado, 1 limão, 1 colher de mel, 250ml de água quente',
+                        preparo: 'Coloque alecrim e gengibre na água quente. Deixe em repouso por 5 minutos. Coe, adicione limão e mel.',
+                        beneficios: 'Melhora memória, reduz inflamação, limpa o fígado e aumenta a circulação sanguínea.',
+                        tempo_estimado: 7
+                    },
+                    {
+                        dia: 12,
+                        nome: 'Suco de Cenoura e Gengibre',
+                        tipo: 'detox',
+                        ingredientes: '3 cenouras, 1 colher de gengibre fresco, 1/2 limão, 1 maçã verde, 200ml de água',
+                        preparo: 'Passe pelo extrator ou bata no liquidificador. Coe e consuma fresco.',
+                        beneficios: 'Rico em betacaroteno, melhora visão, pele e tem propriedades anti-inflamatórias poderosas.',
+                        tempo_estimado: 10
                     }
                 ],
                 emagrecimento: [
@@ -137,10 +200,73 @@ function Recipes() {
                         dia: 5,
                         nome: 'Caldo de Osso com Vegetais',
                         tipo: 'emagrecimento',
-                        ingredientes: '2 litros de água, 1kg de ossos de frango, 3 cenouras, 3 aipo, 1 cebola, sal e pimenta, temperos naturais',
+                        ingredientes: '2 litros de água, 1kg de ossos de frango, 3 cenouras, 3 ramos de aipo, 1 cebola, sal e pimenta',
                         preparo: 'Cozinhe os ossos por 3 horas em fogo baixo com água. Adicione vegetais na última hora. Coe antes de servir.',
                         beneficios: 'Rico em colágeno e minerais, melhora a saúde do intestino, promove saciedade e acelera o metabolismo.',
                         tempo_estimado: 180
+                    },
+                    {
+                        dia: 6,
+                        nome: 'Filé de Peixe com Brócolis',
+                        tipo: 'emagrecimento',
+                        ingredientes: '150g de filé de peixe, 2 xícaras de brócolis, 1 colher de azeite, sal, pimenta, limão',
+                        preparo: 'Asse o peixe no forno a 180°C por 15 minutos. Cozinhe o brócolis no vapor. Regue com azeite e limão.',
+                        beneficios: 'Proteína de alta qualidade, ômega-3 saudável, vitaminas e minerais essenciais para perda de peso.',
+                        tempo_estimado: 20
+                    },
+                    {
+                        dia: 7,
+                        nome: 'Salada de Grão de Bico com Vegetais',
+                        tipo: 'emagrecimento',
+                        ingredientes: '1 lata de grão de bico, 1 tomate, 1/2 pepino, 1/4 cebola roxa, 2 xícaras de alface, azeite, limão e sal',
+                        preparo: 'Escorra e enxague o grão de bico. Pique os vegetais. Misture tudo e tempere com azeite, limão e sal.',
+                        beneficios: 'Rica em fibras e proteína vegetal, promove saciedade, reduz picos de glicose e favorece digestão.',
+                        tempo_estimado: 10
+                    },
+                    {
+                        dia: 8,
+                        nome: 'Frango Grelhado com Batata Doce',
+                        tipo: 'emagrecimento',
+                        ingredientes: '150g de peito de frango, 1 batata doce pequena, 1 colher de azeite, sal, pimenta, limão',
+                        preparo: 'Grelhe o frango com sal e pimenta. Asse a batata doce. Tempere com azeite e limão.',
+                        beneficios: 'Proteína magra com carboidrato complexo, fornece energia duradoura, mantém massa muscular e promove saciedade.',
+                        tempo_estimado: 25
+                    },
+                    {
+                        dia: 9,
+                        nome: 'Ovos Cozidos com Salada Verde',
+                        tipo: 'emagrecimento',
+                        ingredientes: '2 ovos grandes, 3 xícaras de alface ou rúcula, 1/2 tomate, 1/4 cenoura ralada, azeite e vinagre',
+                        preparo: 'Cozinhe os ovos por 10 minutos em água fervente. Prepare a salada e tempere com azeite e vinagre.',
+                        beneficios: 'Proteína completa, saciedade imediata, baixo custo, nutritivo e perfeito para emagrecimento saudável.',
+                        tempo_estimado: 12
+                    },
+                    {
+                        dia: 10,
+                        nome: 'Sopa de Abóbora com Frango',
+                        tipo: 'emagrecimento',
+                        ingredientes: '200g de abóbora, 100g de peito de frango, 1 litro de caldo de frango caseiro, cebola, alho, sal e pimenta',
+                        preparo: 'Cozinhe a abóbora e o frango no caldo por 30 minutos. Bata metade no liquidificador. Tempere a gosto.',
+                        beneficios: 'Baixa caloria, alto em fibras, proteína suficiente, aquecedora e saciante para refeições frias.',
+                        tempo_estimado: 35
+                    },
+                    {
+                        dia: 11,
+                        nome: 'Bifes de Carne com Abóbora Assada',
+                        tipo: 'emagrecimento',
+                        ingredientes: '150g de bife magro, 2 xícaras de abóbora em cubos, 1 colher de azeite, sal, pimenta, alho',
+                        preparo: 'Tempere e grelhe o bife. Asse a abóbora com azeite e alho no forno a 200°C por 20 minutos.',
+                        beneficios: 'Ferro e proteína de qualidade, fibras vegetais, nutrientes para manutenção muscular durante emagrecimento.',
+                        tempo_estimado: 25
+                    },
+                    {
+                        dia: 12,
+                        nome: 'Smoothie Bowl com Proteína',
+                        tipo: 'emagrecimento',
+                        ingredientes: '1 xícara de iogurte grego, 1/2 xícara de blueberries congeladas, 1/2 banana, 1 colher de mel, granola low carb',
+                        preparo: 'Bata iogurte, blueberries e banana. Coloque em uma tigela. Decore com granola e frutas.',
+                        beneficios: 'Café da manhã nutritivo, alto em proteína, antioxidantes e fibras, mantém energia durante o dia.',
+                        tempo_estimado: 10
                     }
                 ]
             };
