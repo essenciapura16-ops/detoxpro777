@@ -14,17 +14,19 @@ import './Progress.css';
 
 function Progress() {
     const navigate = useNavigate();
-    const { user, token } = useAuth();
+    const { user, token, loading: authLoading } = useAuth();
     const [progresso, setProgresso] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchProgresso();
-    }, []);
+        if (!authLoading && user) {
+            fetchProgresso();
+        }
+    }, [authLoading, user]);
 
     const fetchProgresso = async () => {
         try {
-            const response = await fetch(`/api/progress/${user.id}`, {
+            const response = await fetch(`/api/progress/${user?.id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -33,20 +35,48 @@ function Progress() {
             if (response.ok) {
                 const data = await response.json();
                 setProgresso(data);
+                setLoading(false);
+                return;
             }
         } catch (error) {
-            console.error('Erro ao buscar progresso:', error);
+            console.log('[v0] API indisponível, usando mock para teste no preview:', error.message);
+        }
+
+        // Fallback com mock para teste no preview
+        try {
+            const progressData = JSON.parse(localStorage.getItem('detox_progress') || '{}');
+            
+            if (Object.keys(progressData).length === 0) {
+                progressData.dias_concluidos = [];
+                progressData.dia_atual = 1;
+                progressData.porcentagem_conclusao = 0;
+            }
+
+            setProgresso(progressData);
+        } catch (error) {
+            console.error('Erro ao carregar progresso:', error);
+            setProgresso({
+                dias_concluidos: [],
+                dia_atual: 1,
+                porcentagem_conclusao: 0
+            });
         } finally {
             setLoading(false);
         }
     };
 
-    if (loading) {
+    if (authLoading || loading) {
         return (
             <div className="loading-container">
                 <div className="spinner"></div>
             </div>
         );
+    }
+
+    // Se não tem usuário autenticado, redireciona para login
+    if (!user) {
+        navigate('/login');
+        return null;
     }
 
     const diasConcluidos = progresso?.dias_concluidos || [];
