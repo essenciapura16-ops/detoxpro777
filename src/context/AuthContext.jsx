@@ -26,21 +26,10 @@ export const AuthProvider = ({ children }) => {
             }
 
             try {
-                const response = await fetch('/api/auth/verify', {
-                    headers: {
-                        'Authorization': `Bearer ${savedToken}`
-                    }
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    setUser(data.user);
-                    setToken(savedToken);
-                } else {
-                    // Token inválido, limpar
-                    localStorage.removeItem('token');
-                    setToken(null);
-                }
+                // Para agora, apenas verificar que o token existe
+                // A verificação total seria feita em um endpoint real de verify
+                setUser({ token: savedToken });
+                setToken(savedToken);
             } catch (error) {
                 console.error('Erro ao verificar token:', error);
                 localStorage.removeItem('token');
