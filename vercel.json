@@ -3,7 +3,5 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "vite",
-  "env": ["DATABASE_URL", "JWT_SECRET"],
-  "outputDirectory": "dist",
-  "ignoreCommand": "npm run build 2>&1 | grep -q '^error' && exit 1 || exit 0"
+  "outputDirectory": "dist"
 }
