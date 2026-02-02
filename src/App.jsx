@@ -10,7 +10,7 @@ import CalorieAnalysis from './pages/CalorieAnalysis';
 
 // Componente para rotas protegidas
 const ProtectedRoute = ({ children }) => {
-    const { isAuthenticated, loading } = useAuth();
+    const { user, loading } = useAuth();
 
     if (loading) {
         return (
@@ -20,12 +20,12 @@ const ProtectedRoute = ({ children }) => {
         );
     }
 
-    return isAuthenticated ? children : <Navigate to="/login" />;
+    return user ? children : <Navigate to="/login" />;
 };
 
 // Componente para redirecionar usuários autenticados
 const PublicRoute = ({ children }) => {
-    const { isAuthenticated, loading } = useAuth();
+    const { user, loading } = useAuth();
 
     if (loading) {
         return (
@@ -35,7 +35,7 @@ const PublicRoute = ({ children }) => {
         );
     }
 
-    return isAuthenticated ? <Navigate to="/dashboard" /> : children;
+    return user ? <Navigate to="/dashboard" /> : children;
 };
 
 function AppRoutes() {
