@@ -28,19 +28,23 @@ const motivationalQuotes = [
 ];
 
 function Dashboard() {
-    const { user, logout, token } = useAuth();
+    const { user, logout, token, loading: authLoading } = useAuth();
     const navigate = useNavigate();
     const [progresso, setProgresso] = useState(null);
     const [loading, setLoading] = useState(true);
     const [quote] = useState(() => motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]);
 
+    console.log('[v0] Dashboard - user:', user, 'authLoading:', authLoading);
+
     useEffect(() => {
-        fetchProgresso();
-    }, []);
+        if (!authLoading) {
+            fetchProgresso();
+        }
+    }, [authLoading]);
 
     const fetchProgresso = async () => {
         try {
-            const response = await fetch(`/api/progress/${user.id}`, {
+            const response = await fetch(`/api/progress/${user?.id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -84,12 +88,18 @@ function Dashboard() {
         }
     };
 
-    if (loading) {
+    if (authLoading || loading) {
         return (
             <div className="loading-container">
                 <div className="spinner"></div>
             </div>
         );
+    }
+
+    // Se não tem usuário autenticado, redireciona para login
+    if (!user) {
+        navigate('/login');
+        return null;
     }
 
     const diasConcluidos = progresso?.dias_concluidos || [];
