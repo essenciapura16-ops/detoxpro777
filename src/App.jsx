@@ -112,9 +112,9 @@ function AppRoutes() {
 
 function App() {
     return (
-        <div style={{ padding: '20px', fontSize: '24px', fontWeight: 'bold' }}>
-            App Carregando... Teste de Renderização
-        </div>
+        <AuthProvider>
+            <AppRoutes />
+        </AuthProvider>
     );
 }
 
