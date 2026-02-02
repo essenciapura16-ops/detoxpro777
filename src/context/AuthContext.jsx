@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const verifyToken = async () => {
             const savedToken = localStorage.getItem('token');
+            const savedUser = localStorage.getItem('user');
 
             if (!savedToken) {
                 setLoading(false);
@@ -26,11 +27,20 @@ export const AuthProvider = ({ children }) => {
             }
 
             try {
-                setUser({ token: savedToken });
-                setToken(savedToken);
+                // Se tem usuário salvo, use-o
+                if (savedUser) {
+                    const userData = JSON.parse(savedUser);
+                    setUser(userData);
+                    setToken(savedToken);
+                } else {
+                    // Caso contrário, apenas com token
+                    setUser({ token: savedToken });
+                    setToken(savedToken);
+                }
             } catch (error) {
                 console.error('Erro ao verificar token:', error);
                 localStorage.removeItem('token');
+                localStorage.removeItem('user');
                 setToken(null);
             } finally {
                 setLoading(false);
@@ -71,21 +81,24 @@ export const AuthProvider = ({ children }) => {
 
             // Fallback: usar mock para teste no preview do v0
             const users = JSON.parse(localStorage.getItem('detox_users') || '[]');
-            const user = users.find(u => u.email === email);
+            const userData = users.find(u => u.email === email);
 
-            if (!user) {
+            if (!userData) {
                 return { success: false, error: 'Email ou senha incorretos' };
             }
 
             // Verificar senha (simples para teste)
-            if (user.senha !== senha) {
+            if (userData.senha !== senha) {
                 return { success: false, error: 'Email ou senha incorretos' };
             }
 
             const mockToken = 'mock_token_' + Date.now();
+            const userObj = { id: userData.id, nome: userData.nome, email: userData.email };
+            
             localStorage.setItem('token', mockToken);
+            localStorage.setItem('user', JSON.stringify(userObj));
             setToken(mockToken);
-            setUser({ id: user.id, nome: user.nome, email: user.email });
+            setUser(userObj);
 
             return { success: true };
         } catch (error) {
@@ -144,9 +157,12 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('detox_users', JSON.stringify(users));
 
             const mockToken = 'mock_token_' + Date.now();
+            const userObj = { id: newUser.id, nome: newUser.nome, email: newUser.email };
+            
             localStorage.setItem('token', mockToken);
+            localStorage.setItem('user', JSON.stringify(userObj));
             setToken(mockToken);
-            setUser({ id: newUser.id, nome: newUser.nome, email: newUser.email });
+            setUser(userObj);
 
             console.log('[v0] Registro bem-sucedido via mock');
             return { success: true };
@@ -157,6 +173,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         setToken(null);
         setUser(null);
     };
