@@ -21,8 +21,6 @@ export default async function handler(req, res) {
     try {
         const { nome, email, senha } = req.body;
 
-        console.log('[REGISTER] Recebido:', { nome, email });
-
         // Validação
         if (!nome || !email || !senha) {
             return res.status(400).json({ success: false, message: 'Todos os campos são obrigatórios' });
@@ -56,8 +54,6 @@ export default async function handler(req, res) {
             JWT_SECRET,
             { expiresIn: '7d' }
         );
-
-        console.log('[REGISTER] Usuário criado com sucesso:', email);
 
         return res.status(201).json({
             success: true,
