@@ -36,6 +36,7 @@ function Dashboard() {
 
     useEffect(() => {
         if (!authLoading && user) {
+            console.log('[v0] Dashboard - user carregado:', user);
             fetchProgresso();
         }
     }, [authLoading, user]);

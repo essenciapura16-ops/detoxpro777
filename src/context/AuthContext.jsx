@@ -29,13 +29,21 @@ export const AuthProvider = ({ children }) => {
             try {
                 // Se tem usuário salvo, use-o
                 if (savedUser) {
-                    const userData = JSON.parse(savedUser);
-                    setUser(userData);
-                    setToken(savedToken);
+                    try {
+                        const userData = JSON.parse(savedUser);
+                        setUser(userData);
+                        setToken(savedToken);
+                    } catch (parseError) {
+                        console.log('[v0] Erro ao parsear usuário salvo:', parseError.message);
+                        setLoading(false);
+                        return;
+                    }
                 } else {
-                    // Caso contrário, apenas com token
-                    setUser({ token: savedToken });
-                    setToken(savedToken);
+                    // Se não tem usuário mas tem token, limpar ambos
+                    localStorage.removeItem('token');
+                    setToken(null);
+                    setLoading(false);
+                    return;
                 }
             } catch (error) {
                 console.error('Erro ao verificar token:', error);
