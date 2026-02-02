@@ -49,9 +49,30 @@ function Dashboard() {
             if (response.ok) {
                 const data = await response.json();
                 setProgresso(data);
+                return;
             }
         } catch (error) {
-            console.error('Erro ao buscar progresso:', error);
+            console.log('[v0] API indisponível, usando mock para teste no preview:', error.message);
+        }
+
+        // Fallback com mock para teste no preview
+        try {
+            const progressData = JSON.parse(localStorage.getItem('detox_progress') || '{}');
+            
+            if (Object.keys(progressData).length === 0) {
+                progressData.dias_concluidos = [];
+                progressData.dia_atual = 1;
+                progressData.porcentagem_conclusao = 0;
+            }
+
+            setProgresso(progressData);
+        } catch (error) {
+            console.error('Erro ao carregar progresso:', error);
+            setProgresso({
+                dias_concluidos: [],
+                dia_atual: 1,
+                porcentagem_conclusao: 0
+            });
         } finally {
             setLoading(false);
         }
