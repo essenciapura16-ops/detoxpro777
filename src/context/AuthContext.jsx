@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, senha) => {
         try {
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
 
             const data = await response.json();
 
-            if (!response.ok) {
+            if (!response.ok || !data.success) {
                 throw new Error(data.message || 'Erro ao fazer login');
             }
 
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (nome, email, senha) => {
         try {
-            const response = await fetch('/api/auth/register', {
+            const response = await fetch('/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }) => {
 
             const data = await response.json();
 
-            if (!response.ok) {
+            if (!response.ok || !data.success) {
                 throw new Error(data.message || 'Erro ao criar conta');
             }
 
