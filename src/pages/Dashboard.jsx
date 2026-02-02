@@ -12,7 +12,8 @@ import {
     Target,
     Award,
     Flame,
-    Star
+    Star,
+    BookOpen
 } from 'lucide-react';
 import './Dashboard.css';
 
@@ -28,19 +29,27 @@ const motivationalQuotes = [
 ];
 
 function Dashboard() {
-    const { user, logout, token } = useAuth();
+    const { user, logout, token, loading: authLoading } = useAuth();
     const navigate = useNavigate();
     const [progresso, setProgresso] = useState(null);
     const [loading, setLoading] = useState(true);
     const [quote] = useState(() => motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]);
 
     useEffect(() => {
-        fetchProgresso();
-    }, []);
+        if (!authLoading && user) {
+            console.log('[v0] Dashboard - user carregado:', user);
+            fetchProgresso();
+        }
+    }, [authLoading, user]);
+
+    const getFirstName = (fullName) => {
+        if (!fullName) return '';
+        return fullName.split(' ')[0];
+    };
 
     const fetchProgresso = async () => {
         try {
-            const response = await fetch(`/api/progress/${user.id}`, {
+            const response = await fetch(`/api/progress/${user?.id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -49,9 +58,30 @@ function Dashboard() {
             if (response.ok) {
                 const data = await response.json();
                 setProgresso(data);
+                return;
             }
         } catch (error) {
-            console.error('Erro ao buscar progresso:', error);
+            console.log('[v0] API indisponível, usando mock para teste no preview:', error.message);
+        }
+
+        // Fallback com mock para teste no preview
+        try {
+            const progressData = JSON.parse(localStorage.getItem('detox_progress') || '{}');
+            
+            if (Object.keys(progressData).length === 0) {
+                progressData.dias_concluidos = [];
+                progressData.dia_atual = 1;
+                progressData.porcentagem_conclusao = 0;
+            }
+
+            setProgresso(progressData);
+        } catch (error) {
+            console.error('Erro ao carregar progresso:', error);
+            setProgresso({
+                dias_concluidos: [],
+                dia_atual: 1,
+                porcentagem_conclusao: 0
+            });
         } finally {
             setLoading(false);
         }
@@ -63,12 +93,18 @@ function Dashboard() {
         }
     };
 
-    if (loading) {
+    if (authLoading || loading) {
         return (
             <div className="loading-container">
                 <div className="spinner"></div>
             </div>
         );
+    }
+
+    // Se não tem usuário autenticado, redireciona para login
+    if (!user) {
+        navigate('/login');
+        return null;
     }
 
     const diasConcluidos = progresso?.dias_concluidos || [];
@@ -95,7 +131,7 @@ function Dashboard() {
             <main className="dashboard-main">
                 <div className="container">
                     <div className="welcome-section fade-in">
-                        <h1>Olá, {user?.nome}!</h1>
+                        <h1>Olá, {getFirstName(user?.nome)}!</h1>
                         <p className="quote">{quote}</p>
                     </div>
 
@@ -180,6 +216,18 @@ function Dashboard() {
                             <h3>Meu Progresso</h3>
                             <p>Acompanhe sua evolução completa</p>
                             <button className="btn btn-secondary">Ver Progresso</button>
+                        </div>
+
+                        <div
+                            className="action-card card"
+                            onClick={() => navigate('/ebook')}
+                        >
+                            <div className="action-icon-wrapper">
+                                <BookOpen className="action-icon" size={48} />
+                            </div>
+                            <h3>Ebook 70 Receitas Detox</h3>
+                            <p>Acesse o guia completo de receitas</p>
+                            <button className="btn btn-secondary">Ver Ebook</button>
                         </div>
                     </div>
 

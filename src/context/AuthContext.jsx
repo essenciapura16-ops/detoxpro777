@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const verifyToken = async () => {
             const savedToken = localStorage.getItem('token');
+            const savedUser = localStorage.getItem('user');
 
             if (!savedToken) {
                 setLoading(false);
@@ -26,13 +27,28 @@ export const AuthProvider = ({ children }) => {
             }
 
             try {
-                // Para agora, apenas verificar que o token existe
-                // A verificação total seria feita em um endpoint real de verify
-                setUser({ token: savedToken });
-                setToken(savedToken);
+                // Se tem usuário salvo, use-o
+                if (savedUser) {
+                    try {
+                        const userData = JSON.parse(savedUser);
+                        setUser(userData);
+                        setToken(savedToken);
+                    } catch (parseError) {
+                        console.log('[v0] Erro ao parsear usuário salvo:', parseError.message);
+                        setLoading(false);
+                        return;
+                    }
+                } else {
+                    // Se não tem usuário mas tem token, limpar ambos
+                    localStorage.removeItem('token');
+                    setToken(null);
+                    setLoading(false);
+                    return;
+                }
             } catch (error) {
                 console.error('Erro ao verificar token:', error);
                 localStorage.removeItem('token');
+                localStorage.removeItem('user');
                 setToken(null);
             } finally {
                 setLoading(false);
@@ -44,24 +60,53 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, senha) => {
         try {
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, senha })
-            });
+            console.log('[v0] Tentando login com email:', email);
+            
+            // Tentar primeiro com o endpoint real (para Vercel)
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, senha }),
+                    timeout: 3000
+                });
 
-            const data = await response.json();
-
-            if (!response.ok || !data.success) {
-                throw new Error(data.message || 'Erro ao fazer login');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        localStorage.setItem('token', data.token);
+                        setToken(data.token);
+                        setUser(data.user);
+                        console.log('[v0] Login bem-sucedido via API');
+                        return { success: true };
+                    }
+                }
+            } catch (apiError) {
+                console.log('[v0] API indisponível, usando mock para teste no preview:', apiError.message);
             }
 
-            // Salvar token e usuário
-            localStorage.setItem('token', data.token);
-            setToken(data.token);
-            setUser(data.user);
+            // Fallback: usar mock para teste no preview do v0
+            const users = JSON.parse(localStorage.getItem('detox_users') || '[]');
+            const userData = users.find(u => u.email === email);
+
+            if (!userData) {
+                return { success: false, error: 'Email ou senha incorretos' };
+            }
+
+            // Verificar senha (simples para teste)
+            if (userData.senha !== senha) {
+                return { success: false, error: 'Email ou senha incorretos' };
+            }
+
+            const mockToken = 'mock_token_' + Date.now();
+            const userObj = { id: userData.id, nome: userData.nome, email: userData.email };
+            
+            localStorage.setItem('token', mockToken);
+            localStorage.setItem('user', JSON.stringify(userObj));
+            setToken(mockToken);
+            setUser(userObj);
 
             return { success: true };
         } catch (error) {
@@ -71,25 +116,63 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (nome, email, senha) => {
         try {
-            const response = await fetch('/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ nome, email, senha })
-            });
+            console.log('[v0] Tentando registrar:', email);
+            
+            // Tentar primeiro com o endpoint real (para Vercel)
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ nome, email, senha }),
+                    timeout: 3000
+                });
 
-            const data = await response.json();
-
-            if (!response.ok || !data.success) {
-                throw new Error(data.message || 'Erro ao criar conta');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        localStorage.setItem('token', data.token);
+                        setToken(data.token);
+                        setUser(data.user);
+                        console.log('[v0] Registro bem-sucedido via API');
+                        return { success: true };
+                    }
+                }
+            } catch (apiError) {
+                console.log('[v0] API indisponível, usando mock para teste no preview:', apiError.message);
             }
 
-            // Salvar token e usuário
-            localStorage.setItem('token', data.token);
-            setToken(data.token);
-            setUser(data.user);
+            // Fallback: usar mock para teste no preview do v0
+            const users = JSON.parse(localStorage.getItem('detox_users') || '[]');
 
+            if (users.find(u => u.email === email)) {
+                return { success: false, error: 'Email já cadastrado' };
+            }
+
+            if (senha.length < 6) {
+                return { success: false, error: 'Senha deve ter no mínimo 6 caracteres' };
+            }
+
+            const newUser = {
+                id: Date.now(),
+                nome,
+                email,
+                senha
+            };
+
+            users.push(newUser);
+            localStorage.setItem('detox_users', JSON.stringify(users));
+
+            const mockToken = 'mock_token_' + Date.now();
+            const userObj = { id: newUser.id, nome: newUser.nome, email: newUser.email };
+            
+            localStorage.setItem('token', mockToken);
+            localStorage.setItem('user', JSON.stringify(userObj));
+            setToken(mockToken);
+            setUser(userObj);
+
+            console.log('[v0] Registro bem-sucedido via mock');
             return { success: true };
         } catch (error) {
             return { success: false, error: error.message };
@@ -98,6 +181,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         setToken(null);
         setUser(null);
     };
