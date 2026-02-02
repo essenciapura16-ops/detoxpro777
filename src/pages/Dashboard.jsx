@@ -34,13 +34,16 @@ function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [quote] = useState(() => motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]);
 
-    console.log('[v0] Dashboard - user:', user, 'authLoading:', authLoading);
-
     useEffect(() => {
-        if (!authLoading) {
+        if (!authLoading && user) {
             fetchProgresso();
         }
-    }, [authLoading]);
+    }, [authLoading, user]);
+
+    const getFirstName = (fullName) => {
+        if (!fullName) return '';
+        return fullName.split(' ')[0];
+    };
 
     const fetchProgresso = async () => {
         try {
@@ -126,7 +129,7 @@ function Dashboard() {
             <main className="dashboard-main">
                 <div className="container">
                     <div className="welcome-section fade-in">
-                        <h1>Olá, {user?.nome}!</h1>
+                        <h1>Olá, {getFirstName(user?.nome)}!</h1>
                         <p className="quote">{quote}</p>
                     </div>
 
