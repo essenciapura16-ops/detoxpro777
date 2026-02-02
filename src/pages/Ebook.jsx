@@ -7,9 +7,8 @@ function Ebook() {
     const navigate = useNavigate();
 
     const handleDownloadPDF = () => {
-        const pdfUrl = 'https://blobs.vusercontent.net/blob/70-Receitas-Saudaveis-zQKYvq1Az0FKt20vs3BCY9g1nuErGI.pdf';
         const link = document.createElement('a');
-        link.href = pdfUrl;
+        link.href = '/70-Receitas-Saudaveis.pdf';
         link.download = '70-Receitas-Saudaveis.pdf';
         document.body.appendChild(link);
         link.click();
