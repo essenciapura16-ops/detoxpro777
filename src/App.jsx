@@ -38,81 +38,75 @@ const PublicRoute = ({ children }) => {
     return user ? <Navigate to="/dashboard" /> : children;
 };
 
-function AppRoutes() {
-    return (
-        <Routes>
-            {/* Rotas públicas */}
-            <Route
-                path="/login"
-                element={
-                    <PublicRoute>
-                        <Login />
-                    </PublicRoute>
-                }
-            />
-
-            {/* Rotas protegidas */}
-            <Route
-                path="/dashboard"
-                element={
-                    <ProtectedRoute>
-                        <Dashboard />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path="/tarefa/:dia"
-                element={
-                    <ProtectedRoute>
-                        <DailyTask />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path="/receitas"
-                element={
-                    <ProtectedRoute>
-                        <Recipes />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path="/progresso"
-                element={
-                    <ProtectedRoute>
-                        <Progress />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path="/ebook"
-                element={
-                    <ProtectedRoute>
-                        <Ebook />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path="/analise-calorias"
-                element={
-                    <ProtectedRoute>
-                        <CalorieAnalysis />
-                    </ProtectedRoute>
-                }
-            />
-
-            {/* Rota padrão */}
-            <Route path="/" element={<Navigate to="/login" />} />
-            <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
-    );
-}
-
 function App() {
     return (
         <Router>
             <AuthProvider>
-                <AppRoutes />
+                <Routes>
+                    {/* Rotas públicas */}
+                    <Route
+                        path="/login"
+                        element={
+                            <PublicRoute>
+                                <Login />
+                            </PublicRoute>
+                        }
+                    />
+
+                    {/* Rotas protegidas */}
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <ProtectedRoute>
+                                <Dashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/tarefa/:dia"
+                        element={
+                            <ProtectedRoute>
+                                <DailyTask />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/receitas"
+                        element={
+                            <ProtectedRoute>
+                                <Recipes />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/progresso"
+                        element={
+                            <ProtectedRoute>
+                                <Progress />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/ebook"
+                        element={
+                            <ProtectedRoute>
+                                <Ebook />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/analise-calorias"
+                        element={
+                            <ProtectedRoute>
+                                <CalorieAnalysis />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    {/* Rota padrão */}
+                    <Route path="/" element={<Navigate to="/login" />} />
+                    <Route path="*" element={<Navigate to="/login" />} />
+                </Routes>
             </AuthProvider>
         </Router>
     );
