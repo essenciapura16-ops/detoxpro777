@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import DailyTask from './pages/DailyTask';
 import Recipes from './pages/Recipes';
 import Progress from './pages/Progress';
+import Ebook from './pages/Ebook';
 import CalorieAnalysis from './pages/CalorieAnalysis';
 
 // Componente para rotas protegidas
@@ -81,6 +82,14 @@ function AppRoutes() {
                     element={
                         <ProtectedRoute>
                             <Progress />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/ebook"
+                    element={
+                        <ProtectedRoute>
+                            <Ebook />
                         </ProtectedRoute>
                     }
                 />

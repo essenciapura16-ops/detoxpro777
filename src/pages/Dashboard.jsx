@@ -12,7 +12,8 @@ import {
     Target,
     Award,
     Flame,
-    Star
+    Star,
+    BookOpen
 } from 'lucide-react';
 import './Dashboard.css';
 
@@ -215,6 +216,18 @@ function Dashboard() {
                             <h3>Meu Progresso</h3>
                             <p>Acompanhe sua evolução completa</p>
                             <button className="btn btn-secondary">Ver Progresso</button>
+                        </div>
+
+                        <div
+                            className="action-card card"
+                            onClick={() => navigate('/ebook')}
+                        >
+                            <div className="action-icon-wrapper">
+                                <BookOpen className="action-icon" size={48} />
+                            </div>
+                            <h3>Ebook 70 Receitas Detox</h3>
+                            <p>Acesse o guia completo de receitas</p>
+                            <button className="btn btn-secondary">Ver Ebook</button>
                         </div>
                     </div>
 
