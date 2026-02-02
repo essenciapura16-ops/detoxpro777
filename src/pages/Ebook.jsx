@@ -7,24 +7,17 @@ function Ebook() {
     const navigate = useNavigate();
 
     const handleDownloadPDF = () => {
-        const pdfUrl = 'https://blobs.vusercontent.net/blob/70-Receitas-Saudaveis-1xAygSHCukJgMXFB3nCy55eBmWKAFB.pdf';
-        window.open(pdfUrl, '_blank');
+        window.open('https://blobs.vusercontent.net/blob/70-Receitas-Saudaveis-1xAygSHCukJgMXFB3nCy55eBmWKAFB.pdf', '_blank');
     };
 
     return (
         <div className="ebook-container">
             <header className="ebook-header">
-                <button
-                    className="back-button"
-                    onClick={() => navigate('/dashboard')}
-                >
+                <button className="back-button" onClick={() => navigate('/dashboard')}>
                     <ArrowLeft size={24} />
                 </button>
                 <h1>Ebook 70 Receitas Detox</h1>
-                <button
-                    className="btn-download-header"
-                    onClick={handleDownloadPDF}
-                >
+                <button className="btn-download-header" onClick={handleDownloadPDF}>
                     <Download size={20} />
                     Download PDF
                 </button>
